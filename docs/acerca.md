@@ -28,18 +28,18 @@ Quedan fuera por diseño la política, la religión y las afirmaciones de salud:
 
 - **Gratis, sin registro.** Un ensayo de muestra al día y hasta tres al mes por conexión, con un panel de 40 personas. La sala tiene un presupuesto diario para todos; si se agota, te avisa y puedes seguir con tu propia clave.
 - **Con tu propia clave.** Con una API key de Anthropic no hay límite diario: paneles de hasta 140 personas, corridas de estabilidad y datos crudos. Cada ensayo cuesta alrededor de US$0.20 en tu cuenta. Se ingresa dentro de la sala, con el botón "Usar mi clave". [Cómo obtener una clave](https://console.anthropic.com/settings/keys).
-- **Código abierto.** Puedes levantar tu propia sala, adaptarla a otro país o a tu equipo. El repositorio incluye el dataset preparado, los scripts y la configuración de despliegue. Repositorio en GitHub: pronto.
+- **Código abierto.** Puedes levantar tu propia sala, adaptarla a otro país o a tu equipo. El repositorio incluye los scripts para preparar el dataset y la configuración de despliegue. [Repositorio en GitHub](https://github.com/luchoedu/que-dira-el-salvador).
 
 ## Instala tu propia sala
 
 En resumen, para quien quiera su propia instancia:
 
-1. Clona el repositorio e instala las dependencias con `npm install`.
+1. Clona [el repositorio](https://github.com/luchoedu/que-dira-el-salvador) e instala las dependencias con `npm install`, o usa el botón [Desplegar en Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/luchoedu/que-dira-el-salvador) para crear el sitio con un clic y luego seguir con los datos.
 2. Descarga el dataset [Nemotron-Personas-El-Salvador](https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador) y corre `python3 scripts/build_data.py` para generar el índice y los textos de las personas.
 3. Crea un proyecto en Netlify, sube las personas a Netlify Blobs con `node scripts/upload-personas.mjs` y configura tu `ANTHROPIC_API_KEY` y las variables de cuota.
 4. Despliega. Cualquier dominio propio se conecta con un registro CNAME apuntando a tu sitio de Netlify.
 
-Los pasos detallados, las variables disponibles y el modo de desarrollo local están en el README del repositorio.
+Los pasos detallados, las variables disponibles y el modo de desarrollo local están en el [README del repositorio](https://github.com/luchoedu/que-dira-el-salvador#readme).
 
 ## Créditos y licencia
 

@@ -1,6 +1,8 @@
 # ¿Qué dirá El Salvador? · sala de ensayo de ideas
 
-Un proyecto de **Eduardo Aguilar (lucho)** · [lucho.cc](https://lucho.cc)
+Un proyecto de **Eduardo Aguilar (lucho)** · [lucho.cc](https://lucho.cc) · sitio: [nemotron.lucho.cc](https://nemotron.lucho.cc)
+
+[![Desplegar en Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/luchoedu/que-dira-el-salvador)
 
 Panel sintético construido sobre las **148,000 personas** del dataset abierto
 [nvidia/Nemotron-Personas-El-Salvador](https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador)
