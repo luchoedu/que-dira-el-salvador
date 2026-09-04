@@ -1463,6 +1463,7 @@ function initSala(){
   track.innerHTML=chips+chips;
   initFiltros(); refrescarAudiencias();
 }
+try{if(!sessionStorage.getItem('visita')){sessionStorage.setItem('visita','1');(navigator.sendBeacon?navigator.sendBeacon('/api/visita'):fetch('/api/visita',{method:'POST',keepalive:true}))}}catch(e){}
 personasListas.then(initSala).catch(()=>{document.getElementById('salaTrack').innerHTML='<span class="chip-p">No se pudo cargar la sala. Recarga la página.</span>'});
 </script>
 </body></html>

@@ -81,3 +81,25 @@ export function presupuestoLlamadas(plan: { n: number; k: number; adv: boolean; 
   const voces = 4, extra = (plan.adv ? 1 : 0) + 1;
   return Math.ceil((lotes + voces + extra) * 1.5) + 4;
 }
+
+// ---------- Estadísticas de uso (solo conteos por día; nunca IPs ni ideas) ----------
+const stats = () => getStore('stats');
+
+export async function contar(clave: string): Promise<void> {
+  try { const s = stats(); const n = await leerN(s, clave); await s.setJSON(clave, { n: n + 1 }); } catch { /* las estadísticas nunca rompen un ensayo */ }
+}
+
+export interface FilaStats { dia: string; visitas: number; gratis: number; propia: number; completados: number; gastoCentavos: number }
+
+export async function resumenStats(dias = 30): Promise<FilaStats[]> {
+  const s = stats(), c = cuotas();
+  const out: FilaStats[] = [];
+  for (let i = 0; i < dias; i++) {
+    const d = new Date(Date.now() - i * 86400000); const dia = diaUTC(d);
+    const [visitas, gratis, propia, cg, cp, gasto] = await Promise.all([
+      leerN(s, `v/${dia}`), leerN(s, `e/${dia}/gratis`), leerN(s, `e/${dia}/propia`), leerN(s, `c/${dia}/gratis`), leerN(s, `c/${dia}/propia`), leerN(c, `gasto/${dia}`),
+    ]);
+    out.push({ dia, visitas, gratis, propia, completados: cg + cp, gastoCentavos: gasto });
+  }
+  return out;
+}
