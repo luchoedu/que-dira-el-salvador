@@ -1,0 +1,8 @@
+node_modules
+.netlify
+data/raw
+data/build
+.env
+npm-install.log
+deno.lock
+.DS_Store

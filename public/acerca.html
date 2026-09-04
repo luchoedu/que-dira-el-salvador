@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acerca del proyecto · ¿Qué dirá El Salvador?</title>
+<meta name="description" content="Qué es la sala de ensayo, cómo funciona, cómo instalar tu propia instancia y créditos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#1B3A8F">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--tinta:#15171C;--gris:#5B606B;--linea:#E2E3E8;--hueso:#F6F6F4;--blanco:#fff;--cobalto:#1B3A8F;--cobalto-claro:#EDF1FA}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--hueso);color:var(--tinta);font-family:'Inter',system-ui,sans-serif;font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.topbar{background:rgba(246,246,244,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--linea);position:sticky;top:0}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+.logo{font-weight:600;font-size:15.5px;color:var(--tinta);text-decoration:none} .logo .q{color:var(--cobalto)}
+.topbar a.btn{background:var(--cobalto);color:#fff;border-radius:8px;padding:9px 16px;font-weight:600;font-size:14px;text-decoration:none}
+main{padding:48px 0 96px}
+h1{font-size:32px;letter-spacing:-.025em;line-height:1.15;margin-bottom:8px}
+h2{font-size:22px;letter-spacing:-.015em;margin:40px 0 12px;padding-top:24px;border-top:1px solid var(--linea)}
+h3{font-size:16px;margin:22px 0 8px}
+p{margin:0 0 14px;max-width:70ch;color:#2A2D35}
+ul,ol{margin:0 0 14px 22px} li{margin:6px 0;max-width:68ch}
+a{color:var(--cobalto)}
+code{font-family:'IBM Plex Mono',monospace;font-size:13px;background:var(--cobalto-claro);padding:1px 5px;border-radius:4px}
+pre{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:0 0 16px}
+pre code{background:none;padding:0;font-size:13px;line-height:1.6}
+.tabla{overflow-x:auto;margin:0 0 16px} table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--linea);vertical-align:top} th{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris);font-weight:500}
+footer{border-top:1px solid var(--linea);padding:24px 0 48px;font-size:13px;color:var(--gris)}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="wrap"><a class="logo" href="/">¿Qué dirá <span class="q">El Salvador</span>?</a><a class="btn" href="/">Ir a la sala</a></div></nav>
+<main><div class="wrap">
+<h1>Acerca de la sala de ensayo</h1>
+<p><b>¿Qué dirá El Salvador?</b> es una sala de ensayo de ideas. Describes un negocio, una campaña o un producto y un panel de personas sintéticas, construido sobre las distribuciones del Censo 2024 de El Salvador, lo evalúa: qué tan bien se entiende, si resulta creíble y relevante, quién lo probaría y por qué no. En minutos, sin registro y sin que tu idea se guarde en ningún lado.</p>
+<h2>Cómo funciona</h2>
+<ol><li><b>Eliges tu perfil.</b> Emprendedor, creativo, investigador o explorador. La medición es la misma; cambia el lente con el que se lee el reporte.</li><li><b>Describes la idea.</b> Dos líneas bastan; más contexto, mejor ensayo.</li><li><b>Defines quién opina.</b> El Salvador representativo, o una audiencia construida por departamento, zona, sexo, edad, educación, estado civil o tipo de hogar. Puedes guardar audiencias y comparar dos.</li><li><b>Apruebas el plan y ejecutas.</b> La sala muestra exactamente qué va a correr antes de gastar una sola llamada al modelo.</li></ol>
+<p>Cada persona del panel responde un instrumento de cinco dimensiones (comprensión, atractivo, credibilidad, relevancia, intención) en elección forzada, más su objeción principal. Ocho personas, elegidas por polos de reacción, hablan en primera persona. Un pase adversarial busca por qué la idea fallaría. El reporte entrega un veredicto con intervalo de confianza, el mapa por segmento, la polarización, las objeciones rankeadas y una sección fija: dónde este ensayo probablemente se equivoca.</p>
+<h2>Qué es y qué no es</h2>
+<p>Es un generador de hipótesis con base censal. No es una encuesta, no predice ventas y no sustituye a un panel humano. Las personas son sintéticas; las proporciones son reales. Por eso cada score sale con intervalo, y por eso el reporte termina con sus propios límites.</p>
+<p>Quedan fuera por diseño la política, la religión y las afirmaciones de salud: una sala de ensayo no debe usarse para fabricar opinión sobre creencias ni para validar tratamientos.</p>
+<h2>Tu idea no se almacena</h2>
+<ul><li>El texto de tu idea pasa por el servidor solo para construir las preguntas al modelo. No se guarda, no se registra y no se usa para nada más.</li><li>El modelo se consulta a través de la API comercial de Anthropic. Según su política de datos, lo que se envía por la API no se usa para entrenar sus modelos, salvo que quien la usa lo autorice expresamente; en esta sala nunca se envía retroalimentación ni autorización de ese tipo.</li><li>No hay cuentas ni correos. Lo único que persiste son las audiencias que decidas guardar, y quedan en tu dispositivo.</li><li>Si usas tu propia clave de Anthropic, viaja en cada llamada y el servidor la usa para hablar con el modelo. No se guarda en ningún servidor; en el navegador vive solo en la pestaña abierta.</li></ul>
+<h2>Tres formas de usarla</h2>
+<ul><li><b>Gratis, sin registro.</b> Un ensayo de muestra al día y hasta tres al mes por conexión, con un panel de 40 personas. La sala tiene un presupuesto diario para todos; si se agota, te avisa y puedes seguir con tu propia clave.</li><li><b>Con tu propia clave.</b> Con una API key de Anthropic no hay límite diario: paneles de hasta 140 personas, corridas de estabilidad y datos crudos. Cada ensayo cuesta alrededor de US$0.20 en tu cuenta. Se ingresa dentro de la sala, con el botón "Usar mi clave". <a href="https://console.anthropic.com/settings/keys">Cómo obtener una clave</a>.</li><li><b>Código abierto.</b> Puedes levantar tu propia sala, adaptarla a otro país o a tu equipo. El repositorio incluye el dataset preparado, los scripts y la configuración de despliegue. Repositorio en GitHub: pronto.</li></ul>
+<h2>Instala tu propia sala</h2>
+<p>En resumen, para quien quiera su propia instancia:</p>
+<ol><li>Clona el repositorio e instala las dependencias con <code>npm install</code>.</li><li>Descarga el dataset <a href="https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador">Nemotron-Personas-El-Salvador</a> y corre <code>python3 scripts/build_data.py</code> para generar el índice y los textos de las personas.</li><li>Crea un proyecto en Netlify, sube las personas a Netlify Blobs con <code>node scripts/upload-personas.mjs</code> y configura tu <code>ANTHROPIC_API_KEY</code> y las variables de cuota.</li><li>Despliega. Cualquier dominio propio se conecta con un registro CNAME apuntando a tu sitio de Netlify.</li></ol>
+<p>Los pasos detallados, las variables disponibles y el modo de desarrollo local están en el README del repositorio.</p>
+<h2>Créditos y licencia</h2>
+<ul><li>Concepto, diseño y dirección: <b>Eduardo Aguilar (lucho)</b> · <a href="https://lucho.cc">lucho.cc</a>.</li><li>Dataset: <a href="https://huggingface.co/datasets/nvidia/Nemotron-Personas-El-Salvador">nvidia/Nemotron-Personas-El-Salvador</a> (NVIDIA · ANIA · WideLabs), licencia CC BY 4.0, fundamentado en el Censo 2024 de El Salvador.</li><li>Modelo: Claude (Anthropic). Hospedaje: Netlify.</li></ul>
+<p>Proyecto independiente, sin afiliación con las instituciones que produjeron el dataset. Las personas son sintéticas; ninguna representa a un ciudadano real.</p>
+</div></main>
+<footer><div class="wrap">Un proyecto de <b>Eduardo Aguilar (lucho)</b>. Proyecto independiente · las personas del panel son sintéticas.</div></footer>
+</body></html>

@@ -1,0 +1,20 @@
+{
+  "name": "que-dira-el-salvador",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Sala de ensayo de ideas sobre el dataset Nemotron-Personas-El-Salvador",
+  "scripts": {
+    "dev": "netlify dev",
+    "build:data": "node scripts/build-data.mjs",
+    "upload:personas": "node scripts/upload-personas.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest",
+    "@netlify/blobs": "latest",
+    "@netlify/functions": "latest"
+  },
+  "devDependencies": {
+    "netlify-cli": "latest"
+  }
+}
