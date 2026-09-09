@@ -14,11 +14,12 @@ function azar(seed: number) { let t = seed >>> 0; return () => { t += 0x6D2B79F5
 let cliente: Anthropic | null = null;
 /** Cliente con la clave del servidor, o uno efímero con la clave propia del usuario (nunca se guarda). */
 function client(clave?: string): Anthropic {
-  if (clave) return new Anthropic({ apiKey: clave, timeout: 50_000, maxRetries: 1 });
+  // Con clave propia se reintenta más: las cuentas nuevas de Anthropic tienen límites por minuto bajos.
+  if (clave) return new Anthropic({ apiKey: clave, timeout: 50_000, maxRetries: 3 });
   if (!cliente) {
     const apiKey = Netlify.env.get('ANTHROPIC_API_KEY');
     if (!apiKey) throw new ErrorApi(500, 'Falta configurar ANTHROPIC_API_KEY en Netlify');
-    cliente = new Anthropic({ apiKey, timeout: 50_000, maxRetries: 1 });
+    cliente = new Anthropic({ apiKey, timeout: 50_000, maxRetries: 2 });
   }
   return cliente;
 }
@@ -35,11 +36,20 @@ async function llamar<T>(opts: { system: string; user: string; schema: Record<st
       messages: [{ role: 'user', content: opts.user }],
       output_config: { effort: opts.effort, format: { type: 'json_schema', schema: opts.schema } },
     });
-  } catch (e) {
-    if (e instanceof Anthropic.RateLimitError) throw new ErrorApi(503, 'El modelo está saturado en este momento. Intenta de nuevo en un minuto.');
-    if (e instanceof Anthropic.AuthenticationError) throw new ErrorApi(opts.clave ? 401 : 500, opts.clave ? 'La clave que ingresaste no es válida. Revísala en console.anthropic.com.' : 'La API key del modelo no es válida.');
-    if (e instanceof Anthropic.PermissionDeniedError) throw new ErrorApi(402, opts.clave ? 'Tu cuenta de Anthropic no tiene crédito o permiso para este modelo.' : 'La cuenta del modelo no tiene crédito.');
-    if (e instanceof Anthropic.APIError) throw new ErrorApi(502, `Error del modelo (${e.status}).`);
+  } catch (e: any) {
+    const propia = !!opts.clave;
+    const msg: string = String(e?.message || '');
+    if (e instanceof Anthropic.RateLimitError) throw new ErrorApi(503, propia
+      ? 'Tu cuenta de Anthropic alcanzó su límite por minuto (las cuentas nuevas tienen límites bajos). La sala reintenta sola; si persiste, espera un minuto y vuelve a ejecutar.'
+      : 'El modelo está saturado en este momento. Intenta de nuevo en un minuto.');
+    if (e instanceof Anthropic.AuthenticationError) throw new ErrorApi(propia ? 401 : 500, propia ? 'La clave que ingresaste no es válida. Revísala en console.anthropic.com.' : 'La API key del modelo no es válida.');
+    if (e instanceof Anthropic.PermissionDeniedError) throw new ErrorApi(402, propia ? 'Tu clave no tiene permiso para usar este modelo. Revisa el espacio de trabajo y los permisos de la clave en console.anthropic.com.' : 'La cuenta del modelo no tiene permiso para este modelo.');
+    if (e instanceof Anthropic.BadRequestError && /credit balance|billing|purchase credits/i.test(msg)) throw new ErrorApi(402, propia
+      ? 'Tu cuenta de Anthropic no tiene saldo: una clave de API necesita créditos, aparte de cualquier suscripción a Claude. Agrega saldo en console.anthropic.com → Créditos.'
+      : 'La cuenta del modelo no tiene saldo.');
+    if (e instanceof Anthropic.NotFoundError) throw new ErrorApi(402, propia ? `Tu clave no tiene acceso al modelo ${modelo()}. Revisa el espacio de trabajo de la clave en console.anthropic.com.` : `El modelo ${modelo()} no está disponible para la cuenta del servidor.`);
+    if (e instanceof Anthropic.APIError) throw new ErrorApi(502, `Error del modelo (${e.status}): ${msg.slice(0, 160)}`);
+    if (/timeout|timed out|aborted/i.test(msg)) throw new ErrorApi(504, 'El modelo tardó demasiado en responder. Vuelve a intentarlo.');
     throw new ErrorApi(502, 'No se pudo contactar al modelo.');
   }
   if (!opts.clave) await registrarGasto(costoCentavos(resp.model || modelo(), resp.usage));

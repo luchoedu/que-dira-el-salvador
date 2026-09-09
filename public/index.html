@@ -1237,7 +1237,7 @@ async function ejecutar(){
                     :[{nombre:S.audiencia.nombre,filtros:S.audiencia.filtros}];
     const totalPasos=grupos.length*S.k*Math.ceil(nEf/10)+4+(S.adv?1:0)+1;
     let hecho=0; const avanza=()=>{hecho++;progreso(Math.min(96,hecho/totalPasos*100))};
-    const resultados=[];
+    const resultados=[]; let ultimoError='';
     for(const g of grupos){
       const pool=filtrarPersonas(g.filtros);
       const corridas=[];
@@ -1249,15 +1249,20 @@ async function ejecutar(){
           progreso(null,'Panel de '+g.nombre+': personas '+(li*10+1)+'–'+Math.min(li*10+10,panel.length)+(S.k>1?' · corrida '+(k+1):''));
           let out=[];
           try{out=await evaluarLote(lote,k+1)}
-          catch(e){ if(e.status===429||e.status===401)throw e; try{out=await evaluarLote(lote,k+1)}catch(e2){} }
+          catch(e){
+            if([400,401,402,404,429].includes(e.status))throw e;       // errores de clave, saldo o cuota: no tiene sentido reintentar
+            ultimoError=e.message||String(e);
+            if(e.status===503||e.status===504)await new Promise(r=>setTimeout(r,8000)); // límite por minuto o lentitud: esperar y reintentar
+            try{out=await evaluarLote(lote,k+1)}catch(e2){ultimoError=e2.message||String(e2)}
+          }
           if(k===0)out.forEach((r,ri)=>vivoResp(r,ri*160));
           if(li===0&&k===0)vivoFase('Primeras reacciones…');
           avanza();
           return out;
-        }),3);
+        }),S.clave?2:3);
         const resps=partes.flat();
         if(k===0)vivoFase('El panel completo respondió');
-        if(!resps.length) throw new Error('El panel no devolvió respuestas. Revisa tu conexión e intenta de nuevo.');
+        if(!resps.length) throw new Error('El panel no devolvió respuestas.'+(ultimoError?' Causa: '+ultimoError:' Revisa tu conexión e intenta de nuevo.'));
         corridas.push(resps);
       }
       resultados.push({grupo:g,corridas});
